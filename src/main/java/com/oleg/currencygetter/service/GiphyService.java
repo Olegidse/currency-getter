@@ -1,6 +1,5 @@
 package com.oleg.currencygetter.service;
 
-import com.oleg.currencygetter.client.CurrencyApiInterface;
 import com.oleg.currencygetter.client.RandomGiphyApiInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +27,8 @@ public class GiphyService {
         return randomGiphyApiInterface.getGif(apiKey, brokeTag, "g" ).getData().getImages().getOriginal().getWebp();
     }
 
-    public String getGifUri() {
-        boolean bool = currencyService.isUp();
+    public String getGifUri(String currencyCode) {
+        if (currencyService.isUp(currencyCode)) {return getRichGifUri();}
         return getBrokeGifUri();
     }
 }

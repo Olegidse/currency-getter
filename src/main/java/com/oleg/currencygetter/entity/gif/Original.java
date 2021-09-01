@@ -1,7 +1,6 @@
 package com.oleg.currencygetter.entity.gif;
 
 import lombok.*;
-import lombok.experimental.Accessors;
 
 @Getter
 @Setter

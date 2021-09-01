@@ -1,8 +1,6 @@
 package com.oleg.currencygetter.client;
 
 import com.oleg.currencygetter.entity.gif.GeneralResponse;
-import com.oleg.currencygetter.entity.gif.GifEntity;
-
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;

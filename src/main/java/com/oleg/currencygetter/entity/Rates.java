@@ -1,9 +1,11 @@
 package com.oleg.currencygetter.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.*;
 import lombok.experimental.Accessors;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Getter
@@ -12,10 +14,11 @@ import java.math.BigDecimal;
 @Accessors(chain = true)
 @ToString
 public class Rates {
-    @JsonProperty("RUB")
-    BigDecimal rub;
-    @JsonProperty("EUR")
-    BigDecimal eur;
-    @JsonProperty("CHF")
-    BigDecimal chf;
+
+   private Map<String, BigDecimal> rates= new HashMap<>();
+
+   @JsonAnySetter
+   public void setRates(String name, BigDecimal value) {
+      this.rates.put(name, value);
+   }
 }
