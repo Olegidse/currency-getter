@@ -2,8 +2,10 @@ package com.oleg.currencygetter.service;
 
 import com.oleg.currencygetter.client.CurrencyApiInterface;
 import com.oleg.currencygetter.entity.CurrencyEntity;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
+@Setter
+@Getter
 public class CurrencyService {
 
 
@@ -25,7 +29,7 @@ public class CurrencyService {
     @Value("${currency.base}")
     private String baseCurrency;
 
-    private String getPreviousDay(CurrencyEntity currency) {
+    public String getPreviousDay(CurrencyEntity currency) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Timestamp timestamp = new Timestamp(currency.getTimestamp()*1000L);
         LocalDate date = timestamp.toLocalDateTime().toLocalDate();
@@ -33,7 +37,7 @@ public class CurrencyService {
         return formatter.format(previousDate);
     }
 
-    private BigDecimal getCurrencyBasedOn(BigDecimal baseCurrency, BigDecimal value) {
+    public BigDecimal getCurrencyBasedOn(BigDecimal baseCurrency, BigDecimal value) {
         return baseCurrency.divide(value, 5, RoundingMode.HALF_UP);
     }
 

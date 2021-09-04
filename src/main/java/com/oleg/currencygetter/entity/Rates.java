@@ -15,7 +15,7 @@ import java.util.Map;
 @ToString
 public class Rates {
 
-   private Map<String, BigDecimal> rates= new HashMap<>();
+   private Map<String, BigDecimal> rates = new HashMap<>();
 
    @JsonAnySetter
    public void setRates(String name, BigDecimal value) {

@@ -16,5 +16,4 @@ public class CurrencyEntity {
     Long timestamp;
     String base;
     Rates rates;
-
 }
