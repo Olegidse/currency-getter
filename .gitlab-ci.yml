@@ -1,0 +1,30 @@
+image: docker:latest
+services:
+  - docker:dind
+
+stages:
+  - build
+  - test
+  - docker-build-push
+  - deploy
+currency-getter-build:
+  image: gradle:7.2.0-jdk11
+  stage: build
+  script: "gradle build"
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+currency-getter-test:
+  image: gradle:7.2.0-jdk11
+  stage: test
+  script: "gradle test"
+
+financial-tracker-build-push:
+  stage: docker-build-push
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t currency-getter .
+    - docker tag currency-getter:latest registry.gitlab.com/romanovolegd/currency-getter/currency-getter:v1
+    - docker push registry.gitlab.com/romanovolegd/currency-getter/currency-getter:v1
+    - echo "Build-Push"
