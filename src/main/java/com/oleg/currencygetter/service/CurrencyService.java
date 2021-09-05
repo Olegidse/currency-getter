@@ -2,6 +2,7 @@ package com.oleg.currencygetter.service;
 
 import com.oleg.currencygetter.client.CurrencyApiInterface;
 import com.oleg.currencygetter.entity.CurrencyEntity;
+import com.oleg.currencygetter.exception.WrongCurrencyCodeException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,11 +10,13 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,10 +50,25 @@ public class CurrencyService {
         String date = getPreviousDay(currency);
         CurrencyEntity previousCurrency = currencyApiInterface.getPreviousCurrency(date, appId);
 
-        BigDecimal properCurrency = getCurrencyBasedOn(currency.getRates().getRates().get(baseCurrency)
-                ,currency.getRates().getRates().get(currencyCode));
+        System.out.println(currency.getRates().getRates().get(currencyCode));
+
+        Optional<BigDecimal> value = Optional.ofNullable(currency
+                .getRates()
+                .getRates()
+                .get(currencyCode));
+        if(value.isEmpty()) {throw new WrongCurrencyCodeException(String.format("Currency code %s is not valid",currencyCode));}
+
+        Optional<BigDecimal> prevValue = Optional.ofNullable(previousCurrency
+                .getRates()
+                .getRates()
+                .get(currencyCode));
+        if(prevValue.isEmpty()) {throw new WrongCurrencyCodeException(String.format("Currency code %s is not valid",currencyCode));}
+
+
+        BigDecimal properCurrency =  getCurrencyBasedOn(currency.getRates().getRates().get(baseCurrency)
+                ,value.get());
         BigDecimal properPreviousCurrency = getCurrencyBasedOn(previousCurrency.getRates().getRates().get(baseCurrency)
-                ,previousCurrency.getRates().getRates().get(currencyCode));
+                ,prevValue.get());
 
         System.out.println(properCurrency);
         System.out.println(properPreviousCurrency);
