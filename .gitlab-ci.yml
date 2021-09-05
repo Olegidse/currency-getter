@@ -3,17 +3,17 @@ services:
   - docker:dind
 
 stages:
-#  - build
+  - build
 #  - test
   - docker-build-push
 
-#currency-getter-build:
-#  image: gradle:7.2.0-jdk11
-#  stage: build
-#  script: "gradle build"
-#  artifacts:
-#    paths:
-#      - build/libs/*.jar
+currency-getter-build:
+  image: gradle:7.2.0-jdk11
+  stage: build
+  script: "gradle build"
+  artifacts:
+    paths:
+      - build/libs/*.jar
 #
 #currency-getter-test:
 #  image: gradle:7.2.0-jdk11
