@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-alpine
+FROM  adoptopenjdk/openjdk11:alpine-jre
 
 ARG JAR_FILE=build/libs/currency-getter-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} app.jar
