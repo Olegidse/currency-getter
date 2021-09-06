@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class CurrencyCodeValidator {
 
         private static final Pattern phonePattern =
-                Pattern.compile("[A-Z]{3}");
+                Pattern.compile("[a-zA-Z]{3}");
 
         @Value("${currency.base}")
         private String baseCurrency;

@@ -31,10 +31,11 @@ public class GiphyService {
     }
 
     public String getGifUri(String currencyCode) {
-        if(!currencyCodeValidator.isValid(currencyCode)) {
-            throw new NotValidCurrencyCodeException("Currency code must be 3 uppercase latin letters and not equal to base currency");
+        String currencyCodeUpper = currencyCode.toUpperCase();
+        if(!currencyCodeValidator.isValid(currencyCodeUpper)) {
+            throw new NotValidCurrencyCodeException("Currency code must be 3 latin letters and not equal to base currency");
         }
-        if (currencyService.isUp(currencyCode)) {return getRichGifUri();}
+        if (currencyService.isUp(currencyCodeUpper)) {return getRichGifUri();}
         return getBrokeGifUri();
     }
 }
