@@ -21,7 +21,7 @@ currency-getter-build:
 #  stage: test
 #  script: "gradle test"
 
-financial-tracker-build-push:
+currency-getter-build-push:
   stage: docker-build-push
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
@@ -30,7 +30,7 @@ financial-tracker-build-push:
     - docker push registry.gitlab.com/romanovolegd/currency-getter/currency-getter:v1
     - echo "Build-Push"
 
-financial-tracker-deploy:
+currency-getter-deploy:
   image: google/cloud-sdk
   stage: deploy
   when: manual
@@ -45,4 +45,4 @@ financial-tracker-deploy:
     - gcloud config set project capable-door-325120
     - gcloud config set disable_usage_reporting True
     - gcloud config list
-    - gcloud compute instances update-container $VM_INSTANCE --container-image registry.gitlab.com/romanovolegd/currency-getter/currency-getter --container-restart-policy on-failure
+    - gcloud compute instances update-container $VM_INSTANCE --container-image registry.gitlab.com/romanovolegd/currency-getter/currency-getter:v1 --container-restart-policy on-failure
